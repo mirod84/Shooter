@@ -25,7 +25,6 @@ public class Player extends GameObject {
         else if(velX<0 && velY<0)  playerMoveUpLeft();
         else { x += velX;y += velY; }
 
-
         x = Game.clamp((int)x, 5, Game.WIDTH  - this.width - 20);
         y = Game.clamp((int)y, 5, Game.HEIGHT - this.height - 40 );
 

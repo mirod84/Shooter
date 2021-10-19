@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.List;
 
 public class Element extends GameObject {
 
@@ -35,18 +36,18 @@ public class Element extends GameObject {
     }
 
     public boolean collision() {
-
-        for(int i = 0; i < handler.objects.size(); i++) {
-            GameObject tempObject = handler.objects.get(i);
-            if (tempObject != this) {
-                if (tempObject.getId() == ID.Element) {
-                    if (getBounds().intersects(tempObject.getBounds())) {
+        final List<GameObject> gameObjects = handler.register.get(ID.Element);
+        for (GameObject gameObject : gameObjects) {
+            if (gameObject != this) {
+                if (gameObject.getId() == ID.Element) {
+                    if (getBounds().intersects(gameObject.getBounds())) {
                         //collision code
                         System.out.println("collision code");
                         return true;
                     }
                 }
             }
+
         }
         return false;
     }

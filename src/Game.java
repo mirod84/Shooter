@@ -102,7 +102,7 @@ public class Game extends Canvas implements Runnable {
     public void run() {
         this.requestFocus();
         //This value would probably be stored elsewhere.
-        final double GAME_HERTZ = 120.0;
+        final double GAME_HERTZ = 100.0;
         //Calculate how many ns each frame should take for our target game hertz.
         final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
         //At the very most we will update the game this many times before a new render.
@@ -114,7 +114,7 @@ public class Game extends Canvas implements Runnable {
         double lastRenderTime = System.nanoTime();
 
         //If we are able to get as high as this FPS, don't render again.
-        final double TARGET_FPS = 120    ;
+        final double TARGET_FPS = 100    ;
         final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
         //Simple way of finding FPS.
@@ -144,7 +144,7 @@ public class Game extends Canvas implements Runnable {
 
                 //Render. To do so, we need to calculate interpolation for a smooth render.
                 float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
-                //drawGame(interpolation);
+//                drawGame(interpolation);
                 render();
                 lastRenderTime = now;
                 frameCount++;
@@ -153,16 +153,16 @@ public class Game extends Canvas implements Runnable {
                 int thisSecond = (int) (lastUpdateTime / 1000000000);
                 if (thisSecond > lastSecondTime)
                 {
-                    System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
+//                    System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
                     fps = frameCount;
                     frameCount = 0;
                     lastSecondTime = thisSecond;
-                    System.out.println("FPS: " + fps);
-                    System.out.println("updateCount: " + updateCount);
+//                    System.out.println("FPS: " + fps);
+//                    System.out.println("updateCount: " + updateCount);
                 }
 
                 //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
-                while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES)
+                while (now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES)
                 {
                     Thread.yield();
 
