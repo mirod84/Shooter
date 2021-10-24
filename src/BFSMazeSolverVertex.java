@@ -17,6 +17,21 @@ public class BFSMazeSolverVertex  {
 //        Vertex startVert  = graph.addVertex(startRectangle);
 //        Vertex endVert = graph.addVertex(endRectangle);
 
+
+
+
+
+//        for (Rectangle key : graph.getVertices().keySet()) {
+//            for (int i = (int) key.getX(); i < key.getX() + key.getWidth() ; i++) {
+//                for (int j = (int) key.getY(); j <key.getY()  + key.getHeight(); j++) {
+//                    if( i== (int)maze.player.getX() && j == (int)maze.player.getY()){
+//                        endRectangle = key;
+//                    }
+//                }
+//            }
+//
+//            }
+
         Vertex startVert  = graph.getVertices().get(startRectangle);
         Vertex endVert = graph.getVertices().get(endRectangle);
 

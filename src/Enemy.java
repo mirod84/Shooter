@@ -8,7 +8,7 @@ public class Enemy extends GameObject {
 
     private Maze maze;
     List<Coordinate> path;
-    int vv=5;
+    int vv=1;
     int yy=1;
     Coordinate start;
     LinkedList<Vertex> pathVertex;
