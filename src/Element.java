@@ -4,6 +4,7 @@ import java.util.List;
 public class Element extends GameObject {
 
     private Handler handler;
+    private Maze maze;
 
     public Color getColor() {
         return color;
@@ -16,10 +17,10 @@ public class Element extends GameObject {
     private Color color;
 
 
-    public Element(float x, float y, int width, int height, ID id, Handler handler) {
+    public Element(float x, float y, int width, int height, ID id,Maze maze) {
         super(x, y, width, height, id);
-        this.handler = handler;
         color = Color.PINK;
+        this.maze = maze;
     }
 
     @Override
@@ -36,7 +37,7 @@ public class Element extends GameObject {
     }
 
     public boolean collision() {
-        final List<GameObject> gameObjects = handler.register.get(ID.Element);
+        final List<GameObject> gameObjects = maze.register.get(ID.Element);
         for (GameObject gameObject : gameObjects) {
             if (gameObject != this) {
                 if (gameObject.getId() == ID.Element) {

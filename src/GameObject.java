@@ -20,8 +20,8 @@ public abstract class GameObject {
         this.width = width;
         this.height = height;
         this.id = id;
-        System.out.print(this.y);
-        System.out.println(" # " + this.x);
+        //System.out.print(this.y);
+        //System.out.println(" # " + this.x);
     }
 
 

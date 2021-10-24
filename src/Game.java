@@ -3,7 +3,7 @@ import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable {
 
-    public static final int WIDTH = 1920, HEIGHT = 1080;
+    public static final int WIDTH = 400, HEIGHT = 400;
     private int screenWidth;
     private int screenHeight;
     private boolean paused = false;
@@ -12,6 +12,7 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private Mouse mouse;
     private Handler handler;
+    private Maze maze;
 
 
 
@@ -20,37 +21,37 @@ public class Game extends Canvas implements Runnable {
     }
 
     public Game(){
-        handler = new Handler(1080,1920);
-        GameObject tempObject = new Element(30,30, 70,200,ID.Element, handler);
-        GameObject tempObject2 = new Element(368,130, 70,200,ID.Element, handler);
-        GameObject tempObject3 = new Element(830,430, 200,70,ID.Element, handler);
-        GameObject tempObject4 = new Element(1200,430, 200,70,ID.Element, handler);
-        GameObject tempObject5 = new Element(900,530, 70,70,ID.Element, handler);
 
-        GameObject tempObject11 = new Element(30+80,30, 70,200,ID.Element, handler);
-        GameObject tempObject22 = new Element(430+80+100,130+100, 70,200,ID.Element, handler);
-        GameObject tempObject23 = new Element(430+80+100,130+100, 20,200,ID.Element, handler);
-       // GameObject tempObject33 = new Element(830,430+80, 200,40,ID.Element, handler);
-        //GameObject tempObject37 = new Element(930,530+80, 200,40,ID.Element, handler);
+        handler = new Handler();
+        maze = new Maze();
 
-
-
-
-        handler.addObject(tempObject);
-        handler.addObject(tempObject2);
-        handler.addObject(tempObject3);
-        handler.addObject(tempObject4);
-        handler.addObject(tempObject5);
-
-        handler.addObject(tempObject11);
-        //handler.addObject(tempObject22);
-        handler.addObject(tempObject23);
-
-        handler.addObject(new Player(500, 300, 84,84, ID.Player, handler));
-       // handler.addObject(tempObject33);
-       // handler.addObject(tempObject37);
+        Graph graph = new Graph();
+        Rectangle rectangle = new Rectangle(0,0,10,10);
+        Boolean validRectangle = true;
+        for (int i = 0; (i < rectangle.width) && (validRectangle) ; i++) {
+            for (int j = 0; (j < rectangle.height) && (validRectangle) ; j++) {
+                if(maze.exitsElementInObjectTable(i,j)){
+                   validRectangle = false;
+                } else validRectangle = true;
+            }
+        }
+        graph.addVertex(rectangle);
+        Rectangle rectangleRight = new Rectangle(1,0,10,10);
+        graph.addVertex(rectangleRight);
+        Rectangle rectangleDown = new Rectangle(0,1,10,10);
+        graph.addVertex(rectangleDown);
+        graph.addEdge(rectangle,rectangleRight);
+        graph.addEdge(rectangle,rectangleDown);
+        Vertex start = graph.getVertices().get(rectangle);
+        for (Rectangle key : graph.getVertices().keySet()) {
+            if (graph.getVertices().get(key) == start) {
+                rectangle =key;
+            }
+        }
 
 
+
+        handler.setMaze(maze);
         this.mouse = new Mouse(handler);
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(mouse);
@@ -102,7 +103,7 @@ public class Game extends Canvas implements Runnable {
     public void run() {
         this.requestFocus();
         //This value would probably be stored elsewhere.
-        final double GAME_HERTZ = 100.0;
+        final double GAME_HERTZ = 30.0;
         //Calculate how many ns each frame should take for our target game hertz.
         final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
         //At the very most we will update the game this many times before a new render.
@@ -114,7 +115,7 @@ public class Game extends Canvas implements Runnable {
         double lastRenderTime = System.nanoTime();
 
         //If we are able to get as high as this FPS, don't render again.
-        final double TARGET_FPS = 100    ;
+        final double TARGET_FPS = 30    ;
         final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
         //Simple way of finding FPS.

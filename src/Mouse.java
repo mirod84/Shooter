@@ -35,10 +35,10 @@ public class Mouse extends MouseAdapter {
 
     public void mousePressed(MouseEvent e) {
         setIfMousePressed(true);
-       if(handler.getObject(e.getY(),e.getX()) != null) {
-            tempGameObject = handler.getObject(e.getY(), e.getX());
-            tempGameObjectRemove = handler.copyObject(tempGameObject);
-            handler.removeObjectTable(tempGameObjectRemove);
+       if(handler.maze.getObject(e.getX(),e.getY()) != null) {
+            tempGameObject = handler.maze.getObject(e.getX(), e.getY());
+            tempGameObjectRemove = handler.maze.copyObject(tempGameObject);
+            handler.maze.removeObjectTable(tempGameObjectRemove);
             PointerInfo a = MouseInfo.getPointerInfo();
             Point b = a.getLocation();
             setX((int)b.getX());
@@ -94,7 +94,8 @@ public class Mouse extends MouseAdapter {
         if(tempGameObject != null) {
 
             tempGameObject.setColor(Color.pink);
-            handler.addObjectTable(tempGameObject);
+            handler.maze.addObjectTable(tempGameObject);
+            handler.maze.regenerateGraph();
             tempGameObject = null;
         }
         System.out.println("test");

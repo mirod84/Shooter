@@ -4,12 +4,13 @@ import java.util.Random;
 public class Player extends GameObject {
 
     Random r = new Random();
-    private Handler handler;
+    Maze maze;
 
 
-    public Player(float x, float y, int width, int height,  ID id, Handler handler) {
+
+    public Player(float x, float y, int width, int height,  ID id, Maze maze) {
         super(x, y, width, height, id);
-        this.handler = handler;
+        this.maze = maze;
     }
 
     @Override
@@ -24,10 +25,10 @@ public class Player extends GameObject {
         else if(velX<0 && velY>0)  playerMoveDownLeft();
         else if(velX<0 && velY<0)  playerMoveUpLeft();
         else { x += velX;y += velY; }
-
-        x = Game.clamp((int)x, 5, Game.WIDTH  - this.width - 20);
-        y = Game.clamp((int)y, 5, Game.HEIGHT - this.height - 40 );
-
+        //x += velX;y += velY;
+        x = Game.clamp((int)x, 10, Game.WIDTH  - 2*this.width);
+        y = Game.clamp((int)y, 10, Game.HEIGHT - 2*this.height  );
+        maze.start = new Coordinate((int)this.getX(), (int)this.getY());
         //handler.addObject(new Trail(x,y, ID.Trail, Color.white, 32,32,  0.05f, handler));
 
         //collision();
@@ -142,7 +143,7 @@ public class Player extends GameObject {
         boolean wallExists = false;
         for (float i = x ; (i >= x + velX) && !wallExists; i--) {
             for (float j = y + 1; (j <= y + height ) && !wallExists; j++) {
-                if(handler.exitsElementInObjectTable(j,i)) {
+                if(maze.exitsElementInObjectTable(i,j)) {
                     playerCloseWallPositionXAdjustment(i + 1);
                     wallExists = true;
                 }
@@ -155,7 +156,7 @@ public class Player extends GameObject {
         boolean wallExists = false;
         for (float i = x + width ; (i <= x + width + velX) && !wallExists; i++) {
             for (float j = y ; (j <= y + height  ) && !wallExists; j++) {
-                if(handler.exitsElementInObjectTable(j,i)) {
+                if(maze.exitsElementInObjectTable(i,j)) {
                     playerCloseWallPositionXAdjustment(i - width - 1 );
                     wallExists = true;
                 }
@@ -168,7 +169,7 @@ public class Player extends GameObject {
         boolean wallExists = false;
         for (float j = y ; (j >= y + velY) && !wallExists ; j--) {
             for (float i = x ; (i <= x + width ) && !wallExists; i++) {
-                if(handler.exitsElementInObjectTable(j,i)) {
+                if(maze.exitsElementInObjectTable(i,j)) {
                     playerCloseWallPositionYAdjustment(j + 1);
                     wallExists = true;
                 }
@@ -181,7 +182,7 @@ public class Player extends GameObject {
         boolean wallExists = false;
         for (float j = y + height; (j <= y + height + velY) && !wallExists ; j++) {
             for (float i = x ; (i <= x + width) && !wallExists; i++) {
-                if(handler.exitsElementInObjectTable(j,i)) {
+                if(maze.exitsElementInObjectTable(i,j)) {
                     playerCloseWallPositionYAdjustment(j - height - 1);
                     wallExists = true;
                 }
@@ -202,7 +203,8 @@ public class Player extends GameObject {
     @Override
     public void render(Graphics g) {
         if(id == ID.Player) g.setColor(Color.white);
-        g.fillRect((int) x,(int) y,width,height);
+        Rectangle rec = new Rectangle((int) x, (int) y, this.width, this.height);
+        g.fillRect(rec.x,rec.y, rec.width, rec.height);
     }
 
     @Override

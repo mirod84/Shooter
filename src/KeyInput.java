@@ -5,7 +5,7 @@ import java.util.Optional;
 public class KeyInput extends KeyAdapter {
 
     private Handler handler;
-    int speed = 5;
+    int speed = 10;
 
     private boolean[] keyDown = new boolean[4];
 
@@ -24,7 +24,7 @@ public class KeyInput extends KeyAdapter {
         int key = e.getKeyCode();
 
         //System.out.println(key);
-        final Optional<GameObject> playerObject = handler.register.get(ID.Player).stream().findFirst();
+        final Optional<GameObject> playerObject = handler.maze.register.get(ID.Player).stream().findFirst();
         playerObject.ifPresent(player -> {
             if (player.getId() == ID.Player) {
                 if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
@@ -55,8 +55,8 @@ public class KeyInput extends KeyAdapter {
 
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject tempObject = handler.objects.get(i);
+        for (int i = 0; i < handler.maze.objects.size(); i++) {
+            GameObject tempObject = handler.maze.objects.get(i);
             if (tempObject.getId() == ID.Player) {
                 if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) keyDown[0] = false;
                 if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) keyDown[1] = false;
