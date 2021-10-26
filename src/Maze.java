@@ -15,37 +15,32 @@ public class Maze {
     Graph graph;
 
 
+
+
+
+
+
     public Maze() {
-        this.maze = new GameObject[Game.WIDTH][Game.HEIGHT];
-        this.visited = new boolean[Game.WIDTH][Game.HEIGHT];
+        this.maze = new GameObject[Game.WIDTH/ Game.GRID_SIZE][Game.HEIGHT/ Game.GRID_SIZE];
+        this.visited = new boolean[Game.WIDTH/ Game.GRID_SIZE][Game.HEIGHT/ Game.GRID_SIZE];
+
         initializeMaze();
+
     }
 
     private void initializeMaze() {
 
-       // addObject(new Element(5 , 7 , 40, 40, ID.Element, this));
-                addObject(new Element(40 , 80 , 40, 40, ID.Element, this));
+       // addObject(new Element(20 , 8 , 16, 5, ID.Element, this));
 
-        addObject(new Element(10 , 20 , 40, 40, ID.Element, this));
-        addObject(new Element(70 , 60 , 40, 40, ID.Element, this));
+        addObject(new Element(23 , 15 , 8, 5, ID.Element, this));
+        addObject(new Element(10 , 15 , 2, 15, ID.Element, this));
+        addObject(new Element(16 , 15 , 2, 15, ID.Element, this));
+        addObject(new Element(11 , 34 , 12, 15, ID.Element, this));
 
-       // addObject(new Element(100 , 70 , 40, 40, ID.Element, this));
 
-        addObject(new Element(130 , 90 , 40, 40, ID.Element, this));
-        addObject(new Element(220 , 120 , 40, 40, ID.Element, this));
-        addObject(new Element(260 , 120 , 40, 40, ID.Element, this));
+      addObject(new Player(13, 21, 2,2, ID.Player,this));
 
-        addObject(new Element(300 , 240 , 40, 40, ID.Element, this));
-        addObject(new Element(359 , 140 , 40, 40, ID.Element, this));
-//        addObject(new Element(368,130, 70,200,ID.Element,this));
-//        addObject(new Element(830,430, 200,70,ID.Element,this));
-//        addObject(new Element(1200,430, 200,70,ID.Element,this));
-//        addObject(new Element(900,530, 70,70,ID.Element,this));
-//        addObject(new Element(30+80,30, 70,200,ID.Element,this));
-//        addObject(new Element(430+80+100,130+100, 20,200,ID.Element,this));
-      addObject(new Player(130, 20, 20,20, ID.Player,this));
-
-        addObject(new Enemy(100, 100, 20,20, ID.Enemy,this));
+        addObject(new Enemy(20, 10, 2,2, ID.Enemy,this));
         if (graph == null) {
             GraphCreator graphCreator = new GraphCreator(this);
             graph = graphCreator.getGraph();
@@ -83,7 +78,13 @@ public class Maze {
             newList.addAll(list2);
             return newList;
         });
-        addObjectTable(object);
+
+        if (object.getId() == ID.Element) {
+            addObjectTable(object);
+        }
+
+
+
 
     }
 
@@ -93,16 +94,17 @@ public class Maze {
     }
 
     public void addObjectTable(GameObject object) {
-        for (int y = (int) object.getY(); y <= (int) object.getY() + object.getHeight(); y++) {
-            for (int x = (int) object.getX(); x <= (int) object.getX() + object.getWidth(); x++) {
+        for (int x = (int) object.getX(); x < (int) object.getX() + object.getWidth(); x++) {
+            for (int y = (int) object.getY(); y < (int) object.getY() + object.getHeight(); y++) {
                 maze[x][y] = object;
             }
         }
     }
 
+
     public void removeObjectTable(GameObject object) {
-        for (int y = (int) object.getY(); y <= (int) object.getY() + object.getHeight(); y++) {
-            for (int x = (int) object.getX(); x <= (int) object.getX() + object.getWidth(); x++) {
+        for (int y = (int) object.getY(); y < (int) object.getY() + object.getHeight(); y++) {
+            for (int x = (int) object.getX(); x < (int) object.getX() + object.getWidth(); x++) {
                 maze[x][y] = null;
             }
         }
@@ -135,9 +137,7 @@ public class Maze {
 
         return exitsElementInObjectTable(row,col);
 
-
     }
-
 
     public boolean isExplored(int row, int col) {
         return visited[row][col];

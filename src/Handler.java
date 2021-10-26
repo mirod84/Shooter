@@ -7,8 +7,10 @@ import java.util.Map;
 
 public class Handler {
 
-    public GameObject[][] objectsTable;
+    Maze maze;
 
+    public Handler() {
+    }
     public Maze getMaze() {
         return maze;
     }
@@ -17,17 +19,10 @@ public class Handler {
         this.maze = maze;
     }
 
-    Maze maze;
-
-    public Handler() {
-
-    }
-
     public void tick() {
         for (GameObject tempObject : maze.objects) {
             tempObject.tick();
         }
-
     }
 
     public void render(Graphics g) {
@@ -35,10 +30,4 @@ public class Handler {
             object.render(g);
         }
     }
-
-
-
-
-
-
 }

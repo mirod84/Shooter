@@ -6,33 +6,23 @@ public class Element extends GameObject {
     private Handler handler;
     private Maze maze;
 
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    private Color color;
-
 
     public Element(float x, float y, int width, int height, ID id,Maze maze) {
         super(x, y, width, height, id);
-        color = Color.PINK;
+        setColor(Color.pink);
         this.maze = maze;
     }
 
     @Override
     public void tick() {
 
-
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(color);
-        g.fillRect((int) this.x,(int) this.y,this.width,this.height);
+
+        g.setColor(getColor());
+        g.fillRect((int) this.x * Game.GRID_SIZE,(int) this.y * Game.GRID_SIZE,(this.width) * Game.GRID_SIZE,(this.height) * Game.GRID_SIZE);
 
     }
 
@@ -54,6 +44,6 @@ public class Element extends GameObject {
     }
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int)this.x,(int)this.y, this.width+1, this.height+1);
+        return new Rectangle((int)this.x,(int)this.y, this.width, this.height);
     }
 }

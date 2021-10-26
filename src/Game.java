@@ -3,7 +3,8 @@ import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable {
 
-    public static final int WIDTH = 400, HEIGHT = 400;
+    public static final int WIDTH = 1920, HEIGHT = 1080;
+    public static final int GRID_SIZE = 15;
     private int screenWidth;
     private int screenHeight;
     private boolean paused = false;
@@ -14,6 +15,10 @@ public class Game extends Canvas implements Runnable {
     private Handler handler;
     private Maze maze;
 
+    private int offset_1 = 1;
+    private int offset_2 = 1;
+    private GameObject[][] grid;
+
 
 
     public static void main(String[] args) {
@@ -22,47 +27,21 @@ public class Game extends Canvas implements Runnable {
 
     public Game(){
 
-        handler = new Handler();
-        maze = new Maze();
-
-        Graph graph = new Graph();
-        Rectangle rectangle = new Rectangle(0,0,10,10);
-        Boolean validRectangle = true;
-        for (int i = 0; (i < rectangle.width) && (validRectangle) ; i++) {
-            for (int j = 0; (j < rectangle.height) && (validRectangle) ; j++) {
-                if(maze.exitsElementInObjectTable(i,j)){
-                   validRectangle = false;
-                } else validRectangle = true;
-            }
-        }
-        graph.addVertex(rectangle);
-        Rectangle rectangleRight = new Rectangle(1,0,10,10);
-        graph.addVertex(rectangleRight);
-        Rectangle rectangleDown = new Rectangle(0,1,10,10);
-        graph.addVertex(rectangleDown);
-        graph.addEdge(rectangle,rectangleRight);
-        graph.addEdge(rectangle,rectangleDown);
-        Vertex start = graph.getVertices().get(rectangle);
-        for (Rectangle key : graph.getVertices().keySet()) {
-            if (graph.getVertices().get(key) == start) {
-                rectangle =key;
-            }
-        }
+        this.handler = new Handler();
 
 
+        this.maze = new Maze();
 
-        handler.setMaze(maze);
+        this.handler.setMaze(maze);
         this.mouse = new Mouse(handler);
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(mouse);
 
-
         new Window (WIDTH, HEIGHT, "Shooter", this);
 
 
+
     }
-
-
 
     public int getScreenWidth() {
         return screenWidth;
@@ -79,7 +58,6 @@ public class Game extends Canvas implements Runnable {
     public void setScreenHeight(int screenHeight) {
         this.screenHeight = screenHeight;
     }
-
 
     public synchronized  void start(int screenWidth, int screenHeight)  {
         setScreenWidth(screenWidth);
@@ -108,14 +86,14 @@ public class Game extends Canvas implements Runnable {
         final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
         //At the very most we will update the game this many times before a new render.
         //If you're worried about visual hitches more than perfect timing, set this to 1.
-        final int MAX_UPDATES_BEFORE_RENDER = 1;
+        final int MAX_UPDATES_BEFORE_RENDER = 2;
         //We will need the last update time.
         double lastUpdateTime = System.nanoTime();
         //Store the last time we rendered.
         double lastRenderTime = System.nanoTime();
 
         //If we are able to get as high as this FPS, don't render again.
-        final double TARGET_FPS = 30    ;
+        final double TARGET_FPS = 30   ;
         final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
         //Simple way of finding FPS.
@@ -158,8 +136,8 @@ public class Game extends Canvas implements Runnable {
                     fps = frameCount;
                     frameCount = 0;
                     lastSecondTime = thisSecond;
-//                    System.out.println("FPS: " + fps);
-//                    System.out.println("updateCount: " + updateCount);
+                    System.out.println("FPS: " + fps);
+                    System.out.println("updateCount: " + updateCount);
                 }
 
                 //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
@@ -180,6 +158,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void render() {
+
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null) {
             this.createBufferStrategy(3);
@@ -190,14 +169,14 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.black);
         g.fillRect(0,0, screenWidth, screenHeight);
 
-        g.setColor(Color.yellow);
-        String tekst = "";
+//        g.setColor(Color.darkGray);
+//        Rectangle rec = new Rectangle(0, 0, grid.length * GRID_SIZE, grid[0].length * GRID_SIZE);
+//        g.fillRect(rec.x,rec.y, rec.width, rec.height);
+//        String tekst = "";
 
        // g.drawString(tekst + screenWidth + " # "+ screenHeight,screenWidth/2 - tekst.length()*3,screenHeight/2);
 
        handler.render(g);
-
-
 
         g.dispose();
         bs.show();
@@ -214,8 +193,6 @@ public class Game extends Canvas implements Runnable {
     private void tick() {
         this.mouse.mouseMove();
         handler.tick();
-        //tempObject.x = this.mouse.getX()-130/2;
-       // tempObject.y = this.mouse.getY()-130/2;
     }
 
 

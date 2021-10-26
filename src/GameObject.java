@@ -50,10 +50,10 @@ public abstract class GameObject {
     }
     public ID getId() { return id; }
 
-    public void setVelX(int velX) {
+    public void setVelX(float velX) {
         this.velX = velX;
     }
-    public void setVelY(int velY) {
+    public void setVelY(float velY) {
         this.velY = velY;
     }
 

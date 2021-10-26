@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class GraphCreator {
-    private static final int[][] DIRECTIONS = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+    private static final int[][] DIRECTIONS = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } , { 1, -1 }, { -1, 1 }, { 1, 1 }, { -1, -1 } };
 
     public Graph getGraph() {
         return graph;
@@ -29,11 +29,7 @@ public class GraphCreator {
 
         while (true) { // repeats until the end is reached
 
-//            for (Rectangle key : graph.getVertices().keySet()) {
-//                if (graph.getVertices().get(key) == current) {
-//                    currentRectangle =key;
-//                }
-//            }
+
             for (int[] direction : DIRECTIONS) {
                 Rectangle tempRectangle  = new Rectangle((int)current.getRectangle().getX() + direction[0],
                         (int)current.getRectangle().getY() + direction[1],
@@ -41,9 +37,9 @@ public class GraphCreator {
                         (int)current.getRectangle().getHeight());
 
                 validRectangle = true;
-                for (int i = tempRectangle.x; (i <= tempRectangle.x +tempRectangle.width) && (validRectangle) ; i++) {
-                    for (int j = tempRectangle.y; (j <= tempRectangle.y + tempRectangle.height) && (validRectangle) ; j++) {
-                        if (i<Game.WIDTH && j < Game.HEIGHT && i>0 && j > 0) {
+                for (int i = tempRectangle.x; (i < tempRectangle.x +tempRectangle.width) && (validRectangle) ; i++) {
+                    for (int j = tempRectangle.y; (j < tempRectangle.y + tempRectangle.height) && (validRectangle) ; j++) {
+                        if (i<Game.WIDTH/Game.GRID_SIZE && j < Game.HEIGHT/Game.GRID_SIZE && i>0 && j > 0) {
                             if (maze.exitsElementInObjectTable(i, j)) {
                                 validRectangle = false;
                             } else validRectangle = true;

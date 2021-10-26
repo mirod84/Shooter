@@ -35,8 +35,8 @@ public class Mouse extends MouseAdapter {
 
     public void mousePressed(MouseEvent e) {
         setIfMousePressed(true);
-       if(handler.maze.getObject(e.getX(),e.getY()) != null) {
-            tempGameObject = handler.maze.getObject(e.getX(), e.getY());
+       if(handler.maze.getObject(e.getX()/Game.GRID_SIZE,e.getY()/Game.GRID_SIZE) != null) {
+            tempGameObject = handler.maze.getObject(e.getX()/Game.GRID_SIZE, e.getY()/Game.GRID_SIZE);
             tempGameObjectRemove = handler.maze.copyObject(tempGameObject);
             handler.maze.removeObjectTable(tempGameObjectRemove);
             PointerInfo a = MouseInfo.getPointerInfo();
@@ -70,8 +70,8 @@ public class Mouse extends MouseAdapter {
 
                         this.xNoCollision = (int)tempGameObject.getX();
                         this.yNoCollision = (int)tempGameObject.getY();
-                        tempGameObject.setX(tempGameObject.getX() - this.xMove);
-                        tempGameObject.setY(tempGameObject.getY() - this.yMove);
+                        tempGameObject.setX(tempGameObject.getX() - this.xMove/Game.GRID_SIZE);
+                        tempGameObject.setY(tempGameObject.getY() - this.yMove/Game.GRID_SIZE);
 
 
                         if (tempGameObject.collision()) {

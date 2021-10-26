@@ -5,7 +5,7 @@ import java.util.Optional;
 public class KeyInput extends KeyAdapter {
 
     private Handler handler;
-    int speed = 10;
+    float speed = 2F;
 
     private boolean[] keyDown = new boolean[4];
 
@@ -63,9 +63,7 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) keyDown[2] = false;
                 if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) keyDown[3] = false;
 
-                if (!keyDown[2]) {
-//                    System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-                }
+
 
 
                 //vertical movement

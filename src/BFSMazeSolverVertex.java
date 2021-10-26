@@ -14,24 +14,6 @@ public class BFSMazeSolverVertex  {
         Rectangle startRectangle = new Rectangle((int)maze.enemy.getX(),(int)maze.enemy.getY(),maze.enemy.width,maze.enemy.height);
         Rectangle endRectangle = new Rectangle((int)maze.player.getX(),(int)maze.player.getY(),maze.player.width,maze.player.height);
 
-//        Vertex startVert  = graph.addVertex(startRectangle);
-//        Vertex endVert = graph.addVertex(endRectangle);
-
-
-
-
-
-//        for (Rectangle key : graph.getVertices().keySet()) {
-//            for (int i = (int) key.getX(); i < key.getX() + key.getWidth() ; i++) {
-//                for (int j = (int) key.getY(); j <key.getY()  + key.getHeight(); j++) {
-//                    if( i== (int)maze.player.getX() && j == (int)maze.player.getY()){
-//                        endRectangle = key;
-//                    }
-//                }
-//            }
-//
-//            }
-
         Vertex startVert  = graph.getVertices().get(startRectangle);
         Vertex endVert = graph.getVertices().get(endRectangle);
 
@@ -45,39 +27,6 @@ public class BFSMazeSolverVertex  {
         Vertex current = startVert;
 
         while (current != endVert ) { // repeats until the end is reached
-
-//            for (Rectangle key : graph.getVertices().keySet()) {
-//                if (graph.getVertices().get(key) == current) {
-//                    currentRectangle =key;
-//                }
-//            }
-//            for (int[] direction : DIRECTIONS) {
-//                Rectangle tempRectangle  = new Rectangle((int)current.getRectangle().getX() + direction[0],
-//                                                         (int)current.getRectangle().getY() + direction[1],
-//                                                         (int)current.getRectangle().getWidth(),
-//                                                         (int)current.getRectangle().getHeight());
-//
-//                validRectangle = true;
-//                for (int i = tempRectangle.x; (i <= tempRectangle.x +tempRectangle.width) && (validRectangle) ; i++) {
-//                    for (int j = tempRectangle.y; (j <= tempRectangle.y + tempRectangle.height) && (validRectangle) ; j++) {
-//                        if (i<400 && j < 400 && i>0 && j > 0) {
-//                            if (maze.exitsElementInObjectTable(i, j)) {
-//                                validRectangle = false;
-//                            } else validRectangle = true;
-//                        }
-//                        else validRectangle = false;
-//                    }
-//                }
-//                if(validRectangle) {
-//                    if (!graph.getVertices().containsKey(tempRectangle)) {
-//                        graph.addVertex(tempRectangle);
-//                    }
-//                    Vertex v1 = graph.getVertices().get(tempRectangle);
-//                    if (!graph.getVertices().get(current.getRectangle()).getAdjacents().contains(v1)) {
-//                        graph.addEdge(current.getRectangle(), tempRectangle);
-//                    }
-//                }
-//            }
 
             LinkedList<Vertex> adjacents = current.getAdjacents(); // get adjacents
 

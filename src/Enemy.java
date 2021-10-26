@@ -5,11 +5,9 @@ import java.util.Random;
 
 public class Enemy extends GameObject {
 
-
     private Maze maze;
-    List<Coordinate> path;
     int vv=1;
-    int yy=1;
+    int yy=0;
     Coordinate start;
     LinkedList<Vertex> pathVertex;
 
@@ -17,33 +15,20 @@ public class Enemy extends GameObject {
         super(x, y, width, height, id);
 
         this.maze = maze;
-        vv = 5;
+        vv = 1;
         start = maze.start;
     }
 
     @Override
     public void tick() {
 
-
-        //BFSMazeSolver bfs = new BFSMazeSolver();
-        //maze.reset();
-       // path = bfs.solve(maze);
-        //System.out.println("path");
         if (this.maze.start != start) {
             start = this.maze.start;
-            yy = 1;
+            yy = 0;
         }
-
-
-
 
         BFSMazeSolverVertex bfsv = new BFSMazeSolverVertex();
         pathVertex = bfsv.BFSMazeSolverVertex(maze);
-       // System.out.println("pathVertex");
-
-
-
-
     }
 
     @Override
@@ -55,13 +40,23 @@ public class Enemy extends GameObject {
     public void render(Graphics g) {
         yy = yy + vv;
         if(pathVertex.size() > yy){
+
         this.setX((int) pathVertex.get(yy).getRectangle().getX());
         this.setY((int) pathVertex.get(yy).getRectangle().getY());
-//            this.setX((int) path.get(yy).getX());
-//            this.setY((int) path.get(yy).getY());
-            maze.end = new Coordinate((int)this.getX(), (int)this.getY());}
-        if(id == ID.Enemy) g.setColor(Color.red);
-        g.fillRect((int) x,(int) y,width,height);
+        maze.end = new Coordinate((int)this.getX(), (int)this.getY());}
+        if(id == ID.Enemy) g.setColor(Color.yellow);
+
+        int radius = 40;
+        int centerX = 50;
+        int centerY = 100;
+        int angle = 30;
+
+        int dx = (int) (radius * Math.cos(angle * Math.PI / 180));
+        int dy = (int) (radius * Math.sin(angle * Math.PI / 180));
+
+        g.fillArc((int) x* Game.GRID_SIZE, (int) y* Game.GRID_SIZE, width* Game.GRID_SIZE, height* Game.GRID_SIZE, angle, 360 - 2 * angle);
+
+       // g.fillRect((int) x* Game.GRID_SIZE,(int) y* Game.GRID_SIZE,width* Game.GRID_SIZE,height* Game.GRID_SIZE);
     }
 
     @Override

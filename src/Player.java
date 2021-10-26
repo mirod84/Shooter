@@ -29,7 +29,7 @@ public class Player extends GameObject {
         x = Game.clamp((int)x, 10, Game.WIDTH  - 2*this.width);
         y = Game.clamp((int)y, 10, Game.HEIGHT - 2*this.height  );
         maze.start = new Coordinate((int)this.getX(), (int)this.getY());
-        //handler.addObject(new Trail(x,y, ID.Trail, Color.white, 32,32,  0.05f, handler));
+
 
         //collision();
     }
@@ -141,10 +141,10 @@ public class Player extends GameObject {
 
     private boolean wallExistsLeft() {
         boolean wallExists = false;
-        for (float i = x ; (i >= x + velX) && !wallExists; i--) {
-            for (float j = y + 1; (j <= y + height ) && !wallExists; j++) {
+        for (float i = x -1 ; (i >= x + velX) && !wallExists; i--) {
+            for (float j = y ; (j < y + height ) && !wallExists; j++) {
                 if(maze.exitsElementInObjectTable(i,j)) {
-                    playerCloseWallPositionXAdjustment(i + 1);
+                    playerCloseWallPositionXAdjustment(i+1);
                     wallExists = true;
                 }
             }
@@ -154,10 +154,10 @@ public class Player extends GameObject {
 
     private boolean wallExistsRight() {
         boolean wallExists = false;
-        for (float i = x + width ; (i <= x + width + velX) && !wallExists; i++) {
-            for (float j = y ; (j <= y + height  ) && !wallExists; j++) {
+        for (float i = x + width ; (i < x + width + velX) && !wallExists; i++) {
+            for (float j = y ; (j < y + height  ) && !wallExists; j++) {
                 if(maze.exitsElementInObjectTable(i,j)) {
-                    playerCloseWallPositionXAdjustment(i - width - 1 );
+                    playerCloseWallPositionXAdjustment(i - width);
                     wallExists = true;
                 }
             }
@@ -167,10 +167,10 @@ public class Player extends GameObject {
 
     private boolean wallExistsUp() {
         boolean wallExists = false;
-        for (float j = y ; (j >= y + velY) && !wallExists ; j--) {
-            for (float i = x ; (i <= x + width ) && !wallExists; i++) {
+        for (float j = y - 1 ; (j >= y + velY) && !wallExists ; j--) {
+            for (float i = x  ; (i < x + width ) && !wallExists; i++) {
                 if(maze.exitsElementInObjectTable(i,j)) {
-                    playerCloseWallPositionYAdjustment(j + 1);
+                  playerCloseWallPositionYAdjustment(j + 1);
                     wallExists = true;
                 }
             }
@@ -180,10 +180,10 @@ public class Player extends GameObject {
 
     private boolean wallExistsDown() {
         boolean wallExists = false;
-        for (float j = y + height; (j <= y + height + velY) && !wallExists ; j++) {
-            for (float i = x ; (i <= x + width) && !wallExists; i++) {
+        for (float j = y + height; (j < y + height + velY) && !wallExists ; j++) {
+            for (float i = x ; (i < x + width) && !wallExists; i++) {
                 if(maze.exitsElementInObjectTable(i,j)) {
-                    playerCloseWallPositionYAdjustment(j - height - 1);
+                    playerCloseWallPositionYAdjustment(j - height);
                     wallExists = true;
                 }
             }
@@ -203,8 +203,18 @@ public class Player extends GameObject {
     @Override
     public void render(Graphics g) {
         if(id == ID.Player) g.setColor(Color.white);
-        Rectangle rec = new Rectangle((int) x, (int) y, this.width, this.height);
-        g.fillRect(rec.x,rec.y, rec.width, rec.height);
+        Rectangle rec = new Rectangle((int) x * Game.GRID_SIZE, (int) y* Game.GRID_SIZE, this.width* Game.GRID_SIZE, this.height* Game.GRID_SIZE);
+       // g.fillRect(rec.x,rec.y, rec.width, rec.height);
+
+        int radius = 40;
+        int centerX = 50;
+        int centerY = 100;
+        int angle = 30;
+
+        int dx = (int) (radius * Math.cos(angle * Math.PI / 180));
+        int dy = (int) (radius * Math.sin(angle * Math.PI / 180));
+
+        g.fillArc((int) x* Game.GRID_SIZE, (int) y* Game.GRID_SIZE, width* Game.GRID_SIZE, height* Game.GRID_SIZE, angle, 360 - 2 * angle);
     }
 
     @Override
