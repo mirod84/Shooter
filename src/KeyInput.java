@@ -5,7 +5,7 @@ import java.util.Optional;
 public class KeyInput extends KeyAdapter {
 
     private Handler handler;
-    float speed = 2F;
+    float speed = 1.5F;
 
     private boolean[] keyDown = new boolean[4];
 
